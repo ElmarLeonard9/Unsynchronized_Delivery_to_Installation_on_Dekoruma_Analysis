@@ -23,9 +23,32 @@ This project analyzes Dekoruma's order, product, and store data to diagnose the 
 - **Statistical Testing:** SciPy (ANOVA, t-test, Chi-Square, Shapiro-Wilk), scikit-posthocs (Kruskal-Wallis, Mann-Whitney U)
 - **Visualization:** Matplotlib, Seaborn
 - **Version Control:** Git
-- **Others:** Jupyter Notebook
+- **Others:** Jupyter Noteboo
 
-## 4. Project Structure
+## 4. Installation
+
+1. **Prerequisites:**
+
+   * Python version 3.7 or later
+   * Additional dependencies:
+     * `pip install scikit-learn`
+     * `pip install numpy`
+     * `pip install pandas`
+     * `pip install matplotlib`
+     * `pip install scipy`
+     * `pip install seaborn`
+2. **Installation:**
+
+   ```bash
+   git clone [https://github.com/](https://github.com/)ElmarLeonard9/Unsynchronized_Delivery_to_Installation_on_Dekoruma_Analysis
+   cd Unsynchronized_Delivery_to_Installation_on_Dekoruma_Analysis
+   pip install -r requirements.txt
+   ```
+3. **Database Setup:**
+
+   * Create a JSON file with the information of the register
+
+## 5. Project Structure
 
 ```
 ├── README.md          <- The top-level README for developers using this project.
@@ -48,7 +71,7 @@ This project analyzes Dekoruma's order, product, and store data to diagnose the 
 └── src                <- Source code for use in this project (utils.py: rename_cat, fill_ret_cost, extract_city, print_test).
 ```
 
-## 5. Data Model
+## 6. Data Model
 
 This project merges three raw tables into a single cleaned analytical dataset:
 
@@ -83,9 +106,9 @@ This project merges three raw tables into a single cleaned analytical dataset:
 | `store_name`   | Name of the store or channel (e.g., "DEC Alam Sutera 19", "Mobile App", "Web") |
 | `channel_type` | `Physical Store`, `Mobile App`, or `Web`                                 |
 
-## 6. Summary of Finding
+## 7. Summary of Finding
 
-### 6.1 Business Insight
+### 7.1 Business Insight
 
 - **The delivery–installation is caused by Un-Prioritized Queue Algorithm.** 66.80% of all 185,705 installation orders breach the 1-day SLA (mean gap 2.51 days, median 3 days). ANOVA confirms this gap does **not** vary meaningfully by product category (p = 0.89), city (p = 0.95), delivery day (p = 0.55), or installer (p = 0.31). The percentage delivery × installation day heatmap shows a mandatory operational ceiling where no order is permitted to wait 6 days or more. While the system successfully forces all orders to be completed by Day 5 at the absolute latest, it fails to optimize for Day 1, driving the high breach rate.
 - **Installation failure (20.42%) is largely independent of the sync gap, category, city, and channel.** Failures split 12.19% Missing Parts and 8.23% Damaged Panel. A Welch's t-test shows no significant relationship between gap length and failure likelihood (p = 0.61), meaning failures stem from upstream supplier/packaging quality rather than scheduling delays.
@@ -93,14 +116,14 @@ This project merges three raw tables into a single cleaned analytical dataset:
 - **Financial exposure (Rp 54.88 billion across 37,918 failed orders) is concentrated by category, not by failure type or city**, led heavily by the Wardrobe category (IDR 28.2B) due to its higher installation complexity, followed by Dining Tables (IDR 9.1B) and Sofas & Sofabeds (IDR 8.3B).
 - **Installation failure shows a mild, statistically-unproven upward drift across the year**, Failure rate does **not** reach statistical significance on any time dimension tested: installation month (Chi-Square p = 0.31), delivery month (p = 0.82), order month (p = 0.65), or installation month restricted to Physical Store (p = 0.24). However, the chart in 4.5.5 shows the trend lines for three of the four cuts tilt gently upward from January toward December (roughly +1 to +1.4 percentage points across the year), and this shape repeats consistently across independently-derived series rather than looking like random noise.
 
-### 6.2 Actionable Recommendation
+### 7.2 Actionable Recommendation
 
 - **Logistics Synchronization:** Re-architect installer scheduling from a fixed weekly rotation to a delivery-date-driven dynamic assignment, and enforce the 24-hour installation SLA as a hard system constraint. Because the gap is uniform across category, city, and installer, this requires a single centralized fix at the scheduling engine rather than localized pilots.
 - **Supplier Quality Control:** Use the ranked list of top-failure SKUs and categories (led by Wardrobe) to prioritize supplier audits, packaging checklist reviews (for Missing Parts) and transit protection improvements (for Damaged Panel).
 - **Omnichannel Attribution:** Since product mix and failure rates are consistent across channels, commission and attribution models can be standardized rather than channel-specific, while still monitoring Web/Mobile App growth for early divergence.
 - **Data Governance:** Introduce validation rules at the point of data entry to block installation dates preceding delivery/order dates and to prevent placeholder/negative `assembly_fee` values, reducing the need for downstream cleaning.
 
-## 7. Contributors
+## 8. Contributors
 
 - **Name:** Elmar Leonard
 - **Email:** Elmarleonard77@gmail.com
