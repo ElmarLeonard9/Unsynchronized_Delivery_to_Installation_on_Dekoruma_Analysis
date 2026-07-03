@@ -1,4 +1,8 @@
 # This file functions to store all functions that have been created for analysis purposes.
+import numpy as np
+import seaborn as sns
+import matplotlib.ticker as mtick
+
 def rename_cat(category):
     if category == "Lemari": return "Wardrobe"
     elif category == "lmri": return "Wardrobe"
@@ -29,3 +33,18 @@ def extract_city(store_name):
 def print_test(name, stat, p, sig_msg, insig_msg, stat_label='Stat'):
     sig = sig_msg if p < 0.05 else insig_msg
     print(f"\n── {name} ──\n   {stat_label} = {stat:.4f}, p = {p:.4f}\n   → {sig}")
+
+def plot_month_trend(ax, data, month_col, title):
+    sns.lineplot(data=data, x=month_col, y="percentage", ax=ax, color="#A6332E", marker="o")
+    ax.yaxis.set_major_formatter(mtick.PercentFormatter(xmax=100))
+    ax.set_title(title, fontsize=12, fontweight='bold')
+    ax.set_xlabel('')
+    ax.set_ylabel('Failure Rate (%)')
+    ax.tick_params(axis='x', rotation=45)
+
+    x_numbers = np.arange(len(data[month_col]))
+    y_values = data['percentage'].values
+    m, c = np.polyfit(x_numbers, y_values, 1)
+    ax.plot(data[month_col], m * x_numbers + c, color='black', linestyle='--', linewidth=1.5, label='Trend')
+    ax.legend(fontsize=8)
+    sns.despine(ax=ax)

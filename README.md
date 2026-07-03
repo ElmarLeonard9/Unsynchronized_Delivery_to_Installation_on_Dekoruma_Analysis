@@ -54,22 +54,22 @@ This project merges three raw tables into a single cleaned analytical dataset:
 
 **Orders**
 
-| Column                | Description                                                                                                     |
-| --------------------- | --------------------------------------------------------------------------------------------------------------- |
-| `order_id`            | Unique identifier for each order transaction                                                                    |
-| `store_id`            | Unique identifier for the store or sales channel where the order was placed                                     |
-| `sku_id`              | Unique identifier for the ordered product                                                                       |
-| `order_date`          | Date and time when the order was placed                                                                         |
-| `delivery_date`       | Date and time when the product was delivered                                                                    |
-| `installer_id`        | Unique identifier for the assigned installer (`"NO INSTALLER"` if none)                                         |
-| `installation_date`   | Date and time when installation was performed                                                                   |
+| Column                  | Description                                                                                                               |
+| ----------------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| `order_id`            | Unique identifier for each order transaction                                                                              |
+| `store_id`            | Unique identifier for the store or sales channel where the order was placed                                               |
+| `sku_id`              | Unique identifier for the ordered product                                                                                 |
+| `order_date`          | Date and time when the order was placed                                                                                   |
+| `delivery_date`       | Date and time when the product was delivered                                                                              |
+| `installer_id`        | Unique identifier for the assigned installer (`"NO INSTALLER"` if none)                                                 |
+| `installation_date`   | Date and time when installation was performed                                                                             |
 | `installation_status` | `Success`, `Failed - Missing Parts`, `Failed - Damaged Panel`, `No Assembly Service`, or `No Assembly Required` |
-| `assembly_fee`        | Fee charged for assembly service                                                                                |
+| `assembly_fee`        | Fee charged for assembly service                                                                                          |
 
 **Products**
 
-| Column                 | Description                                                                              |
-| ---------------------- | ---------------------------------------------------------------------------------------- |
+| Column                   | Description                                                                              |
+| ------------------------ | ---------------------------------------------------------------------------------------- |
 | `sku_id`               | Unique identifier for the product                                                        |
 | `product_name`         | Full name of the furniture product                                                       |
 | `category`             | Product category (Wardrobe, Sofa & Sofabed, Office Chair, Dining Table, Bed, Decoration) |
@@ -77,20 +77,21 @@ This project merges three raw tables into a single cleaned analytical dataset:
 
 **Stores**
 
-| Column         | Description                                                                    |
-| -------------- | ------------------------------------------------------------------------------ |
+| Column           | Description                                                                    |
+| ---------------- | ------------------------------------------------------------------------------ |
 | `store_id`     | Unique identifier for the store or sales channel                               |
 | `store_name`   | Name of the store or channel (e.g., "DEC Alam Sutera 19", "Mobile App", "Web") |
-| `channel_type` | `Physical Store`, `Mobile App`, or `Web`                                       |
+| `channel_type` | `Physical Store`, `Mobile App`, or `Web`                                 |
 
 ## 6. Summary of Finding
 
 ### 6.1 Business Insight
 
-- **The delivery–installation gap is systemic, not segmental.** 66.80% of all 185,705 installation orders breach the 1-day SLA (mean gap 2.51 days, median 3 days). ANOVA confirms the gap does **not** vary meaningfully by product category (p = 0.89), city (p = 0.95), delivery day (p = 0.55), or installer (p = 0.31). The delivery × installation weekday heatmap shows a deterministic weekly pattern, indicating installers follow a fixed rotation schedule that ignores each order's actual delivery date.
+- **The delivery–installation is caused by Un-Prioritized Queue Algorithm.** 66.80% of all 185,705 installation orders breach the 1-day SLA (mean gap 2.51 days, median 3 days). ANOVA confirms this gap does **not** vary meaningfully by product category (p = 0.89), city (p = 0.95), delivery day (p = 0.55), or installer (p = 0.31). The percentage delivery × installation day heatmap shows a mandatory operational ceiling where no order is permitted to wait 6 days or more. While the system successfully forces all orders to be completed by Day 5 at the absolute latest, it fails to optimize for Day 1, driving the high breach rate.
 - **Installation failure (20.42%) is largely independent of the sync gap, category, city, and channel.** Failures split 12.19% Missing Parts and 8.23% Damaged Panel. A Welch's t-test shows no significant relationship between gap length and failure likelihood (p = 0.61), meaning failures stem from upstream supplier/packaging quality rather than scheduling delays.
 - **Physical Store dominates order volume (95%)**, with Web and Mobile App each contributing 2.5%. Product category composition is highly uniform across all three channels, showing no evidence that online customers favor a different product mix.
-- **Total estimated return-cost exposure from failed installations reaches IDR 54.9 billion**, led heavily by the Wardrobe category (IDR 28.2B) due to its higher installation complexity, followed by Dining Tables (IDR 9.1B) and Sofas & Sofabeds (IDR 8.3B).
+- **Financial exposure (Rp 54.88 billion across 37,918 failed orders) is concentrated by category, not by failure type or city**, led heavily by the Wardrobe category (IDR 28.2B) due to its higher installation complexity, followed by Dining Tables (IDR 9.1B) and Sofas & Sofabeds (IDR 8.3B).
+- **Installation failure shows a mild, statistically-unproven upward drift across the year**, Failure rate does **not** reach statistical significance on any time dimension tested: installation month (Chi-Square p = 0.31), delivery month (p = 0.82), order month (p = 0.65), or installation month restricted to Physical Store (p = 0.24). However, the chart in 4.5.5 shows the trend lines for three of the four cuts tilt gently upward from January toward December (roughly +1 to +1.4 percentage points across the year), and this shape repeats consistently across independently-derived series rather than looking like random noise.
 
 ### 6.2 Actionable Recommendation
 
@@ -104,7 +105,6 @@ This project merges three raw tables into a single cleaned analytical dataset:
 - **Name:** Elmar Leonard
 - **Email:** Elmarleonard77@gmail.com
 - **GitHub:** https://github.com/ElmarLeonard9
-
 - **Name:** Firsa Adam
 - **Email:** firsa00adam@gmail.com
 - **GitHub:** https://github.com/Firsaadam03
