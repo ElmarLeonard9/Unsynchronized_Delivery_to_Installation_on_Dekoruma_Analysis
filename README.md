@@ -102,8 +102,8 @@ This project merges three raw tables into a single cleaned analytical dataset:
 ## 7. Contributors
 
 - **Name:** Elmar Leonard
-- **Email:**Elmarleonard77@gmail.com
-- **GitHub:**https://github.com/ElmarLeonard9
+- **Email:** Elmarleonard77@gmail.com
+- **GitHub:** https://github.com/ElmarLeonard9
 
 - **Name:** Firsa Adam
 - **Email:** firsa00adam@gmail.com
